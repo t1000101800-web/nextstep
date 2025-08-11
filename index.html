@@ -2,281 +2,155 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>직업 성향 테스트</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>성향 기반 직무 추천</title>
   <style>
-    :root{
-      --bg:#f5f7fb; --card:#ffffff; --ink:#0d1b2a; --muted:#5b6b7a; --primary:#2563eb; --accent:#10b981; --border:#e6eaf0;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink)}
-    .container{max-width:960px;margin:24px auto;padding:20px}
-    header{display:flex;gap:12px;align-items:center;margin-bottom:16px}
-    .logo{width:44px;height:44px;border-radius:12px;background:conic-gradient(from 210deg,var(--primary),var(--accent));box-shadow:inset 0 0 12px rgba(0,0,0,.1)}
-    h1{font-size:22px;margin:0}
-    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:0 6px 24px rgba(0,0,0,.05);padding:18px}
-    .actions{display:flex;gap:10px;flex-wrap:wrap}
-    .btn{appearance:none;border:1px solid var(--border);background:#fff;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
-    .btn.primary{background:linear-gradient(180deg,#2563eb1a,#2563eb0d);border-color:#93b4ff}
-    .btn.ghost{background:transparent}
-    .progress{height:10px;background:#eef2f7;border-radius:999px;overflow:hidden;margin:6px 0 12px}
-    .bar{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .25s ease}
-    .question{font-size:18px;margin:8px 0 10px}
-    .scale{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
-    .scale .btn{padding:12px 8px}
-    .meta{font-size:12px;color:var(--muted)}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-    @media(max-width:720px){.grid{grid-template-columns:1fr}}
-    .score{border:1px solid var(--border);border-radius:12px;padding:12px}
-    .meter{height:10px;background:#eef2f7;border-radius:999px;overflow:hidden}
-    .meter>div{height:100%;width:0;transition:width .4s ease;background:linear-gradient(90deg,var(--accent),var(--primary))}
-    .list{margin:8px 0 0 18px}
-    .tag{display:inline-flex;align-items:center;padding:4px 8px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:var(--muted);margin-right:6px;margin-top:6px}
-    .note{font-size:12px;color:var(--muted)}
+    body { font-family: Arial, sans-serif; max-width: 700px; margin: auto; padding: 20px; }
+    h1, h2 { text-align: center; }
+    button { padding: 10px 20px; margin: 10px; }
+    .tag { font-size: 0.9em; color: #666; }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="logo" aria-hidden="true"></div>
-      <div>
-        <h1>직업 성향 테스트</h1>
-        <div class="meta">12개의 문항에 답하면 상위 성향 2가지를 조합해 더 정밀한 직무 추천을 제공합니다. (약 2분)</div>
-      </div>
-    </header>
-
-    <section id="screen-start" class="card">
-      <p>응답은 <strong>전혀 아니다</strong> ~ <strong>매우 그렇다</strong> 5단계입니다. 결과에는 <em>강점·적합 환경·주의점</em>과 함께 <em>추천 직무 Top 10</em>이 포함됩니다.</p>
-      <div class="actions">
-        <button class="btn primary" id="btn-start">지금 시작하기</button>
-        <button class="btn" id="btn-how">사용 방법</button>
-      </div>
-    </section>
-
-    <section id="screen-how" class="card" hidden>
-      <p class="meta">측정 축: A(분석) · C(창의) · S(사람) · P(실행). 각 축은 3문항씩 총 12문항입니다. 결과는 상위 2개 프로필을 조합해 설명하며, 직무 추천은 네 축의 가중치를 반영해 계산합니다.</p>
-      <div class="actions">
-        <button class="btn" id="btn-back1">뒤로</button>
-        <button class="btn primary" id="btn-start2">시작하기</button>
-      </div>
-    </section>
-
-    <section id="screen-quiz" class="card" hidden>
-      <div class="meta" id="q-number">문항 1/12</div>
-      <div class="progress"><div class="bar" id="progress"></div></div>
-      <div class="question" id="q-text">질문</div>
-      <div class="scale" role="group" aria-label="응답 선택">
-        <button class="btn" data-v="1">전혀 아니다</button>
-        <button class="btn" data-v="2">아닌 편이다</button>
-        <button class="btn" data-v="3">보통이다</button>
-        <button class="btn" data-v="4">그런 편이다</button>
-        <button class="btn" data-v="5">매우 그렇다</button>
-      </div>
-      <div class="actions" style="margin-top:10px">
-        <button class="btn" id="btn-prev" disabled>이전</button>
-        <button class="btn ghost" id="btn-reset">처음부터</button>
-      </div>
-    </section>
-
-    <section id="screen-result" class="card" hidden>
-      <div class="pill">내 결과</div>
-      <h2 style="margin:10px 0 2px;">성향 점수</h2>
-      <p style="margin-top:0">30문항 기반으로 성향을 0~100%로 환산합니다.</p>
-      <div class="result-grid" id="score-grid" aria-live="polite"></div>
-      <div class="score" style="margin-top:12px;">
-        <h3 style="margin:0 0 6px;">상위 성향 조합 인사이트</h3>
-        <div id="combo" class="meta"></div>
-      </div>
-      <div class="jobs" style="margin-top:14px;">
-        <h2 style="margin:6px 0 8px;">추천 직무 Top 20</h2>
-        <ol id="job-top" style="margin:0 0 0 18px; padding:0; display:grid; gap:8px;"></ol>
-      </div>
-      <div class="actions">
-        <button class="btn" id="btn-copy">결과 복사</button>
-        <button class="btn primary" id="btn-again">다시하기</button>
-      </div>
-      <p class="footer">※ 이 테스트는 경향을 파악하기 위한 참고용입니다. 실제 진로 결정은 경험과 상담을 통해 종합적으로 판단하세요.</p>
-    </section>
+  <h1>성향 기반 직무 추천</h1>
+  <div id="start-screen">
+    <p>몇 가지 질문에 답하면 당신의 성향에 맞는 직무를 추천해드립니다.</p>
+    <button onclick="startQuiz()">지금 시작하기</button>
   </div>
 
+  <div id="quiz-screen" style="display:none;">
+    <p id="question"></p>
+    <button onclick="answer(1)">그렇다</button>
+    <button onclick="answer(0)">아니다</button>
+  </div>
+
+  <div id="result-screen" style="display:none;">
+    <h2 style="margin:6px 0 8px;">추천 직무 Top 10</h2>
+    <ol id="job-top"></ol>
+    <button onclick="restart()">다시 하기</button>
+  </div>
+
+  <!-- 기본판 직무 데이터 -->
+  <script src="jobs_from_excel.js"></script>
   <script>
-// === Failsafe script (no DOMContentLoaded needed; script runs after DOM) ===
-// If anything goes wrong, open DevTools(F12) → Console and check [career-test] logs.
+    const JOBS = (typeof JOBS_FROM_EXCEL !== 'undefined' ? JOBS_FROM_EXCEL : []);
 
-// ---------- Data ----------
-const QUESTIONS = [
-  // A (8)
-  { t:"복잡한 문제를 데이터로 분석하는 것을 즐긴다.", c:"A" },
-  { t:"숫자·논리를 다루는 게 편하다.", c:"A" },
-  { t:"새 도구나 프로그래밍을 배우는 데 흥미가 있다.", c:"A" },
-  { t:"표와 그래프를 보면 핵심을 빠르게 파악한다.", c:"A" },
-  { t:"가설을 세우고 실험으로 검증하는 편이다.", c:"A" },
-  { t:"문서를 꼼꼼히 읽고 오류를 잘 찾아낸다.", c:"A" },
-  { t:"데이터 정제·전처리 같은 반복 작업도 잘 해낸다.", c:"A" },
-  { t:"문제의 근본 원인을 파고드는 편이다.", c:"A" },
-  // C (8)
-  { t:"아이디어를 떠올리고 콘셉트를 잡는 게 즐겁다.", c:"C" },
-  { t:"스토리텔링이나 시각화로 설득하는 데 자신 있다.", c:"C" },
-  { t:"새로운 형식/포맷을 시도하는 걸 좋아한다.", c:"C" },
-  { t:"영감이 떠오르면 금방 스케치/메모로 남긴다.", c:"C" },
-  { t:"디자인·글쓰기·영상 등 창작 활동을 자주 한다.", c:"C" },
-  { t:"광고나 브랜드 캠페인 사례를 보는 게 재미있다.", c:"C" },
-  { t:"사용자 관점을 상상하며 화면을 그려본다.", c:"C" },
-  { t:"콘텐츠 기획을 할 때 제목·후킹을 신경 쓴다.", c:"C" },
-  // S (7)
-  { t:"사람들의 고민을 듣고 적절히 조언하는 편이다.", c:"S" },
-  { t:"팀 분위기를 읽고 갈등을 조정하는 편이다.", c:"S" },
-  { t:"고객/동료와의 커뮤니케이션이 에너지를 준다.", c:"S" },
-  { t:"상대의 숨은 니즈를 파악하는 편이다.", c:"S" },
-  { t:"발표·회의 진행을 자연스럽게 맡는다.", c:"S" },
-  { t:"피드백을 주고받는 문화에 적극적이다.", c:"S" },
-  { t:"상대방이 이해했는지 확인하며 설명한다.", c:"S" },
-  // P (7)
-  { t:"계획을 세우고 일정·품질을 끝까지 관리한다.", c:"P" },
-  { t:"체계/매뉴얼을 만들거나 프로세스를 개선한다.", c:"P" },
-  { t:"현장에서 직접 부딪히며 문제를 해결한다.", c:"P" },
-  { t:"일을 우선순위로 정리하고 차근차근 처리한다.", c:"P" },
-  { t:"리스크를 미리 가정하고 대비책을 마련한다.", c:"P" },
-  { t:"반복 작업을 자동화하거나 표준화하려 한다.", c:"P" },
-  { t:"마감에 강하고 완결성을 높이려 노력한다.", c:"P" },
-];
+    // 간단 질문 (30개 예시)
+    const questions = [
+      "새로운 아이디어를 떠올리는 것을 즐긴다.",
+      "데이터를 분석하는 것을 좋아한다.",
+      "다른 사람을 돕는 일에 보람을 느낀다.",
+      "계획을 세우고 실행하는 데 강점이 있다.",
+      "감각적인 디자인에 관심이 많다.",
+      "수치를 기반으로 판단하는 편이다.",
+      "팀워크가 중요한 환경을 선호한다.",
+      "위기 상황에서 빠르게 결단한다.",
+      "새로운 기술을 배우는 것이 즐겁다.",
+      "문제를 창의적으로 해결한다.",
+      "사람들의 의견을 경청한다.",
+      "실행 계획을 철저히 지킨다.",
+      "시장 동향을 분석한다.",
+      "서비스 품질 향상에 관심 있다.",
+      "위험을 감수하는 편이다.",
+      "규칙과 절차를 존중한다.",
+      "비즈니스 전략을 세운다.",
+      "고객과의 관계를 중시한다.",
+      "효율적인 업무 방식을 찾는다.",
+      "세부 사항을 꼼꼼히 확인한다.",
+      "다양한 문화에 관심 있다.",
+      "새로운 방식을 시도한다.",
+      "데이터 시각화를 즐긴다.",
+      "변화에 잘 적응한다.",
+      "목표 달성을 위해 노력한다.",
+      "감정 이입을 잘한다.",
+      "리더십을 발휘한다.",
+      "성과를 측정한다.",
+      "창의적인 글을 쓴다.",
+      "기술 문제를 해결한다."
+    ];
 
-const TRAITS = {
-  A: { name:"분석 (Analytical)", desc:"데이터·논리·가설검증에 강점.", strengths:["문제 구조화","데이터 해석","정밀함"], risks:["완벽주의","의사소통 간결화 필요"] },
-  C: { name:"창의 (Creative)", desc:"아이디어·표현·콘셉팅에 강점.", strengths:["콘셉트 메이킹","스토리텔링","시각/언어 표현"], risks:["산만함","실행 지속성 관리 필요"] },
-  S: { name:"사람 (Social)", desc:"관계·공감·조율에 강점.", strengths:["공감","갈등조정","서비스 마인드"], risks:["정서적 소진","경계 설정 필요"] },
-  P: { name:"실행 (Practical)", desc:"운영·품질·일정 관리에 강점.", strengths:["체계화","리스크 관리","완결성"], risks:["경직성","변화 적응 속도"] },
-};
+    let current = 0;
+    let scores = { A: 0, C: 0, S: 0, P: 0 };
 
-const BASE_ROLES = [
-  { title:"데이터 분석가",       w:{A:.95,C:.25,S:.30,P:.45}, explain:"데이터 설계·분석으로 의사결정을 지원" },
-  { title:"데이터 엔지니어",     w:{A:.90,C:.20,S:.20,P:.55}, explain:"데이터 파이프라인/ETL/품질 관리" },
-  { title:"재무분석가",         w:{A:.90,C:.10,S:.25,P:.45}, explain:"재무모델·실적분석·투자검토" },
-  { title:"소프트웨어 개발자",   w:{A:.85,C:.35,S:.20,P:.50}, explain:"요구사항을 코드로 구현하고 최적화" },
-  { title:"리서처(시장/사용자)",  w:{A:.75,C:.35,S:.45,P:.35}, explain:"정성·정량 리서치로 인사이트 도출" },
-  { title:"머신러닝 엔지니어",   w:{A:.92,C:.35,S:.20,P:.55}, explain:"모델 학습·평가·서빙 파이프라인" },
-  { title:"데브옵스 엔지니어",   w:{A:.70,C:.20,S:.25,P:.80}, explain:"배포/모니터링/신뢰성(SRE) 운영" },
-  { title:"보안 엔지니어",       w:{A:.80,C:.20,S:.25,P:.75}, explain:"취약점 진단·대응·정책" },
-  { title:"UX/UI 디자이너",     w:{A:.35,C:.90,S:.45,P:.35}, explain:"사용자 문제를 디자인으로 해결" },
-  { title:"프로덕트 디자이너",   w:{A:.45,C:.85,S:.50,P:.40}, explain:"문제정의→프로토타입→테스트" },
-  { title:"프로덕트 매니저",     w:{A:.60,C:.55,S:.60,P:.70}, explain:"문제정의→로드맵→출시까지 총괄" },
-  { title:"그로스 마케터",       w:{A:.55,C:.70,S:.55,P:.50}, explain:"퍼널 실험·캠페인 운영" },
-  { title:"브랜드 마케터",       w:{A:.35,C:.85,S:.60,P:.35}, explain:"브랜드 전략·메시지·캠페인" },
-  { title:"콘텐츠 기획자",       w:{A:.30,C:.85,S:.55,P:.35}, explain:"콘텐츠 전략·제작·효과 측정" },
-  { title:"세일즈(법인)",        w:{A:.40,C:.30,S:.85,P:.55}, explain:"니즈 파악·제안·딜 성사" },
-  { title:"고객성공(CSM)",       w:{A:.40,C:.30,S:.90,P:.55}, explain:"온보딩·이탈방지·업셀" },
-  { title:"HRBP/HR 제도",       w:{A:.55,C:.30,S:.75,P:.55}, explain:"조직·제도 설계, 평가·보상 운영" },
-  { title:"채용리크루터",        w:{A:.35,C:.25,S:.85,P:.45}, explain:"채용 전략·소싱·면접·오퍼" },
-  { title:"교육기획/트레이너",   w:{A:.40,C:.55,S:.85,P:.45}, explain:"교육과정 설계·운영·코칭" },
-  { title:"프로젝트 매니저",     w:{A:.55,C:.35,S:.55,P:.90}, explain:"일정·리스크·품질 총괄" },
-  { title:"품질관리(QA)",        w:{A:.60,C:.20,S:.30,P:.90}, explain:"표준·점검·개선 사이클 운영" },
-  { title:"생산/공정관리",       w:{A:.55,C:.20,S:.35,P:.95}, explain:"현장 일정·자원·품질 관리" },
-  { title:"운영 매니저",         w:{A:.45,C:.25,S:.55,P:.85}, explain:"운영 정책과 KPI 관리" },
-  { title:"공급망/물류",          w:{A:.55,C:.20,S:.40,P:.90}, explain:"수요예측·재고·배송 최적화" },
-  { title:"구매/소싱 매니저",     w:{A:.50,C:.25,S:.50,P:.85}, explain:"원가·협상·벤더관리" },
-  { title:"품질보증(Quality)",    w:{A:.60,C:.20,S:.35,P:.90}, explain:"감사·표준·개선 활동" },
-  { title:"R&D 연구원",          w:{A:.85,C:.60,S:.30,P:.55}, explain:"실험·분석·논문/특허" },
-  { title:"임상/의료 데이터",      w:{A:.90,C:.25,S:.40,P:.55}, explain:"임상 데이터 분석/운영" },
-  { title:"규제/컴플라이언스",     w:{A:.70,C:.20,S:.45,P:.80}, explain:"정책 준수·감사·교육" },
-];
+    function startQuiz() {
+      document.getElementById("start-screen").style.display = "none";
+      document.getElementById("quiz-screen").style.display = "block";
+      showQuestion();
+    }
 
-const DOMAINS=[
-  '커머스','핀테크','헬스케어','교육','제조','물류','게임','미디어','공공','B2B SaaS','여행','모빌리티','부동산','리테일','에너지','바이오','로보틱스','AI','보안','스포츠','엔터','패션','푸드','자동차','반도체','케미컬','건설','콘텐츠','광고','클라우드','오픈소스','블록체인','Web3','그린테크','에듀테크','애드테크','마켓플레이스','HR','고객지원','품질','R&D'
-];
+    function showQuestion() {
+      document.getElementById("question").textContent = questions[current];
+    }
 
-function generateJobs(){
-  const list=[]; BASE_ROLES.forEach(base=>{ DOMAINS.forEach(d=>{ list.push({ title:`${base.title} – ${d}`, w:base.w, explain:`${base.explain} (${d})` }); }); }); return list;
-}
-const JOBS = generateJobs();
+    function answer(val) {
+      // 간단 매핑 (순서대로 A/C/S/P)
+      const traits = ["A","C","S","P"];
+      const trait = traits[current % 4];
+      scores[trait] += val;
+      current++;
+      if (current < questions.length) {
+        showQuestion();
+      } else {
+        showResult();
+      }
+    }
 
-// ---------- State ----------
-let idx=0; const answers=[]; const scores={A:0,C:0,S:0,P:0};
-const perCount={A:0,C:0,S:0,P:0}; QUESTIONS.forEach(q=> perCount[q.c]++);
-const maxPer={ A:perCount.A*5, C:perCount.C*5, S:perCount.S*5, P:perCount.P*5 };
+    function suitability(w) {
+      // 가중치와 점수를 기반으로 적합도 계산
+      const totalQuestionsPerTrait = questions.length / 4;
+      let sum = 0;
+      sum += (scores.A / totalQuestionsPerTrait) * w.A;
+      sum += (scores.C / totalQuestionsPerTrait) * w.C;
+      sum += (scores.S / totalQuestionsPerTrait) * w.S;
+      sum += (scores.P / totalQuestionsPerTrait) * w.P;
+      return Math.round(sum * 100);
+    }
 
-// ---------- DOM ----------
-const $=(s)=>document.querySelector(s);
-const start=$('#screen-start');
-const how=$('#screen-how');
-const quiz=$('#screen-quiz');
-const result=$('#screen-result');
-const qNum=$('#q-number');
-const qText=$('#q-text');
-const bar=$('#progress');
+    function jobFamily(title) {
+      let t = (title || '').trim();
+      t = t.split('–')[0].split('-')[0].trim();
+      t = t.replace(/\s*\(.*?\)\s*/g, '').trim();
+      t = t.replace(/\s{2,}/g, ' ');
+      return t;
+    }
 
-function show(el){ if(el) el.hidden=false; }
-function hide(el){ if(el) el.hidden=true; }
+    function showResult() {
+      document.getElementById("quiz-screen").style.display = "none";
+      document.getElementById("result-screen").style.display = "block";
 
-function goStart(){ hide(how); hide(quiz); hide(result); show(start); idx=0; ['A','C','S','P'].forEach(k=>scores[k]=0); answers.length=0; if(bar) bar.style.width='0%'; console.log('[career-test] goStart'); }
-function goHow(){ hide(start); show(how); }
-function goQuiz(){ hide(start); hide(how); hide(result); show(quiz); renderQ(); console.log('[career-test] goQuiz'); }
-function goResult(){ hide(quiz); show(result); renderResult(); console.log('[career-test] goResult'); }
+      // 전체 직무를 적합도 순으로 정렬
+      const rankedAll = JOBS
+        .map(j => ({ ...j, score: suitability(j.w) }))
+        .sort((a, b) => b.score - a.score);
 
-function renderQ(){ const total=QUESTIONS.length; const q=QUESTIONS[idx]; if(!q){ return console.error('[career-test] no question at idx', idx); }
-  if(qNum) qNum.textContent=`문항 ${idx+1}/${total}`; if(qText) qText.textContent=q.t; if(bar) bar.style.width=`${(idx/total)*100}%`;
-  const prevBtn=$('#btn-prev'); if(prevBtn) prevBtn.disabled=(idx===0);
-}
+      // 동일 직무군 최대 2개, 총 10개 제한
+      let ranked = [];
+      const famCount = {};
+      for (const j of rankedAll) {
+        const fam = jobFamily(j.title);
+        const c = famCount[fam] || 0;
+        if (c >= 2) continue;
+        ranked.push(j);
+        famCount[fam] = c + 1;
+        if (ranked.length >= 10) break;
+      }
 
-function applyScore(i,value){ const cat=QUESTIONS[i].c; if(answers[i]) scores[cat]-=answers[i]; answers[i]=value; scores[cat]+=value; }
-function next(){ if(idx<QUESTIONS.length-1){ idx++; renderQ(); } else { if(bar) bar.style.width='100%'; goResult(); } }
-function prev(){ if(idx>0){ idx--; renderQ(); } }
+      // 화면 렌더링
+      const list = document.getElementById('job-top');
+      list.innerHTML = '';
+      ranked.forEach(j => {
+        const li = document.createElement('li');
+        li.innerHTML = `<strong>${j.title}</strong> — ${j.explain} <span class="tag">적합도 ${j.score}%</span>`;
+        list.appendChild(li);
+      });
+    }
 
-// ---------- Events (double-safe: both addEventListener and inline fallback on HTML) ----------
-$('#btn-start')?.addEventListener('click', goQuiz);
-$('#btn-start2')?.addEventListener('click', goQuiz);
-$('#btn-how')?.addEventListener('click', goHow);
-$('#btn-back1')?.addEventListener('click', goStart);
-$('#btn-prev')?.addEventListener('click', prev);
-$('#btn-reset')?.addEventListener('click', goStart);
-$('#btn-again')?.addEventListener('click', ()=>{ goStart(); goQuiz(); });
-
-// Rating buttons
-Array.from(document.querySelectorAll('.scale .btn')).forEach(btn=>{
-  btn.addEventListener('click',()=>{ const v=Number(btn.dataset.v||'0'); if(!v) return; applyScore(idx,v); next(); });
-});
-
-// Keyboard
-window.addEventListener('keydown',(e)=>{ if(!quiz || quiz.hidden) return; if(['ArrowLeft','ArrowRight','1','2','3','4','5'].includes(e.key)){
-  e.preventDefault(); let val=null; if(e.key==='ArrowLeft') val=Math.max(1,(answers[idx]||3)-1); if(e.key==='ArrowRight') val=Math.min(5,(answers[idx]||3)+1); if('12345'.includes(e.key)) val=Number(e.key); if(val){ applyScore(idx,val); next(); }
-}});
-
-// ---------- Result ----------
-function norm(k){ return (scores[k]/maxPer[k]); }
-function suitability(w){ const sumW=w.A+w.C+w.S+w.P; const raw=(w.A*norm('A')+w.C*norm('C')+w.S*norm('S')+w.P*norm('P'))/sumW; return Math.max(0,Math.min(100,Math.round(raw*100))); }
-
-function renderResult(){
-  const grid=$('#score-grid'); if(grid) grid.innerHTML='';
-  ['A','C','S','P'].forEach(k=>{ const p=Math.round(norm(k)*100); const box=document.createElement('div'); box.className='score';
-    box.innerHTML=`
-      <h3>${TRAITS[k].name} <span style="color:var(--muted); font-weight:500;">(${scores[k]} / ${maxPer[k]})</span></h3>
-      <div class="meter" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${p}"><div style="width:${p}%"></div></div>
-      <p style="margin:8px 0 0; color:var(--muted);">${TRAITS[k].desc}</p>
-      <p class="meta">강점: ${TRAITS[k].strengths.join(', ')} · 주의점: ${TRAITS[k].risks.join(', ')}</p>
-    `; grid?.appendChild(box);
-  });
-
-  const ranked=JOBS.map(j=>({ ...j, score:suitability(j.w) })).sort((a,b)=>b.score-a.score).slice(0,20);
-  const list=$('#job-top'); if(list){ list.innerHTML=''; ranked.forEach(j=>{ const li=document.createElement('li'); li.innerHTML=`<strong>${j.title}</strong> — ${j.explain} <span class="tag">적합도 ${j.score}%</span>`; list.appendChild(li); }); }
-
-  const order=Object.entries(scores).map(([k,v])=>({k,v})).sort((a,b)=>b.v-a.v);
-  const top1=order[0]?.k, top2=order[1]?.k; const map={
-    'A+C':'데이터에 기반해 새로운 콘셉트를 검증·구현.',
-    'A+S':'분석과 공감으로 고객·조직 문제를 구조적으로 해결.',
-    'A+P':'정밀한 분석과 실행력으로 운영/품질/프로젝트 개선.',
-    'C+S':'스토리텔링+공감으로 변화 촉진(브랜드/교육/커뮤니케이션).',
-    'C+P':'아이디어를 빠르게 프로토타입→출시(프로덕트/그로스).',
-    'S+P':'현장 조율과 실행 최적화(영업/CS/운영).'
-  };
-  const key=[top1,top2].sort().join('+');
-  const comboEl=$('#combo'); if(comboEl) comboEl.innerHTML=`<div class="meta"><strong>${TRAITS[top1].name}</strong> + <strong>${TRAITS[top2].name}</strong></div><p style="margin:6px 0 0">${map[key]||''}</p>`;
-
-  const copyBtn=$('#btn-copy'); if(copyBtn){ copyBtn.onclick=async()=>{ const t=`A:${Math.round(norm('A')*100)}% C:${Math.round(norm('C')*100)}% S:${Math.round(norm('S')*100)}% P:${Math.round(norm('P')*100)}%
-Top: ${ranked.slice(0,5).map(j=>j.title+"("+j.score+"%)").join(', ')}`; try{ await navigator.clipboard.writeText(t); alert('결과를 복사했습니다. 붙여넣어 공유하세요!'); }catch{ alert('복사 실패: 브라우저 설정을 확인하세요.'); } } }
-}
-
-// Start immediately (script is at the end of body)
-goStart();
-console.log('[career-test] ready (failsafe mode)');
-</script>
+    function restart() {
+      current = 0;
+      scores = { A: 0, C: 0, S: 0, P: 0 };
+      document.getElementById("result-screen").style.display = "none";
+      document.getElementById("start-screen").style.display = "block";
+    }
+  </script>
 </body>
 </html>
