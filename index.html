@@ -5,101 +5,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>직업 성향 테스트</title>
   <style>
-    :root {
-      --bg: #0b1020;
-      --card: #121936;
-      --text: #e8ecff;
-      --muted: #9aa3c7;
-      --accent: #6aa7ff;
-      --accent-2: #57d2b5;
-      --danger: #ff7a7a;
+    :root{
+      --bg:#f5f7fb; --card:#ffffff; --ink:#0d1b2a; --muted:#5b6b7a; --primary:#2563eb; --accent:#10b981; --border:#e6eaf0;
     }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
-      background: radial-gradient(1200px 800px at 10% -10%, #1a2550, transparent),
-                  radial-gradient(1000px 700px at 110% 20%, #0c1f3a, transparent),
-                  var(--bg);
-      color: var(--text);
-      min-height: 100vh; display: grid; place-items: center; padding: 24px;
-    }
-    .app {
-      width: 100%; max-width: 760px; background: linear-gradient(180deg, #12193a, #0f1733); border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 20px; padding: 28px; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-    }
-    header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
-    .logo {
-      width: 40px; height: 40px; border-radius: 12px;
-      background: conic-gradient(from 210deg, var(--accent), var(--accent-2));
-      box-shadow: inset 0 0 12px rgba(0,0,0,0.35);
-    }
-    h1 { font-size: 22px; margin: 0; letter-spacing: 0.2px; }
-    p { margin: 10px 0; color: var(--muted); }
-
-    .card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 18px; }
-    .btn {
-      appearance: none; border: 1px solid rgba(255,255,255,0.12); color: var(--text);
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
-      border-radius: 12px; padding: 12px 16px; cursor: pointer; font-weight: 600; letter-spacing: 0.2px;
-      transition: transform .06s ease, background .2s ease, border-color .2s ease; width: 100%;
-    }
-    .btn:hover { border-color: rgba(255,255,255,0.25); }
-    .btn:active { transform: translateY(1px) scale(0.998); }
-    .btn.primary { background: linear-gradient(180deg, #6aa7ff33, #6aa7ff1a); border-color: #6aa7ff55; }
-    .btn.ghost { background: transparent; }
-
-    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    @media (max-width: 520px){ .row { grid-template-columns: 1fr; } }
-
-    .progress { height: 10px; background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; margin: 14px 0 18px; }
-    .bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width .25s ease; }
-
-    .q-number { color: var(--muted); font-weight: 600; font-size: 13px; letter-spacing: 0.6px; text-transform: uppercase; }
-    .question { font-size: 20px; line-height: 1.4; margin: 10px 0 14px; }
-
-    .scale { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: 6px; }
-    .scale .btn { padding: 14px 10px; font-weight: 700; }
-    .hint { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); margin-top: 8px; }
-
-    .pill { display:inline-flex; gap:8px; align-items:center; padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,0.14); background: rgba(255,255,255,0.04); font-size:12px; color: var(--muted); }
-
-    .result-grid { display: grid; gap: 12px; }
-    .score { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px; }
-    .score h3 { margin: 0 0 8px; font-size: 15px; letter-spacing: 0.2px; }
-    .meter { height: 10px; background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden; }
-    .meter > div { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent-2), var(--accent)); transition: width .4s ease; }
-
-    .jobs { display: grid; gap: 10px; margin-top: 16px; }
-    .jobs ul { margin: 6px 0 0 18px; color: var(--text); }
-
-    .footer { margin-top: 16px; color: var(--muted); font-size: 12px; text-align: center; }
-    .actions { display:flex; gap:10px; margin-top:16px; }
-    .actions .btn { width:auto; padding: 12px 14px; }
-
-    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink)}
+    .container{max-width:960px;margin:24px auto;padding:20px}
+    header{display:flex;gap:12px;align-items:center;margin-bottom:16px}
+    .logo{width:44px;height:44px;border-radius:12px;background:conic-gradient(from 210deg,var(--primary),var(--accent));box-shadow:inset 0 0 12px rgba(0,0,0,.1)}
+    h1{font-size:22px;margin:0}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:14px;box-shadow:0 6px 24px rgba(0,0,0,.05);padding:18px}
+    .actions{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{appearance:none;border:1px solid var(--border);background:#fff;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+    .btn.primary{background:linear-gradient(180deg,#2563eb1a,#2563eb0d);border-color:#93b4ff}
+    .btn.ghost{background:transparent}
+    .progress{height:10px;background:#eef2f7;border-radius:999px;overflow:hidden;margin:6px 0 12px}
+    .bar{height:100%;width:0;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .25s ease}
+    .question{font-size:18px;margin:8px 0 10px}
+    .scale{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+    .scale .btn{padding:12px 8px}
+    .meta{font-size:12px;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    @media(max-width:720px){.grid{grid-template-columns:1fr}}
+    .score{border:1px solid var(--border);border-radius:12px;padding:12px}
+    .meter{height:10px;background:#eef2f7;border-radius:999px;overflow:hidden}
+    .meter>div{height:100%;width:0;transition:width .4s ease;background:linear-gradient(90deg,var(--accent),var(--primary))}
+    .list{margin:8px 0 0 18px}
+    .tag{display:inline-flex;align-items:center;padding:4px 8px;border:1px solid var(--border);border-radius:999px;font-size:12px;color:var(--muted);margin-right:6px;margin-top:6px}
+    .note{font-size:12px;color:var(--muted)}
   </style>
 </head>
 <body>
-  <main class="app" role="application" aria-label="직업 성향 테스트 애플리케이션">
+  <div class="container">
     <header>
       <div class="logo" aria-hidden="true"></div>
       <div>
         <h1>직업 성향 테스트</h1>
-        <p>12개의 짧은 문항에 답하면 나의 성향과 어울리는 직무를 추천받습니다. (약 2분)</p>
+        <div class="meta">12개의 문항에 답하면 상위 성향 2가지를 조합해 더 정밀한 직무 추천을 제공합니다. (약 2분)</div>
       </div>
     </header>
 
-    <section id="screen-start" class="card" aria-live="polite">
-      <p>아래 버튼을 눌러 시작하세요. 각 문항은 <strong>전혀 아니다</strong> ~ <strong>매우 그렇다</strong> 5단계로 응답합니다.</p>
-      <div class="row" style="margin-top:10px;">
+    <section id="screen-start" class="card">
+      <p>응답은 <strong>전혀 아니다</strong> ~ <strong>매우 그렇다</strong> 5단계입니다. 결과에는 <em>강점·적합 환경·주의점</em>과 함께 <em>추천 직무 Top 10</em>이 포함됩니다.</p>
+      <div class="actions">
         <button class="btn primary" id="btn-start">지금 시작하기</button>
-        <button class="btn ghost" id="btn-how">사용 방법</button>
+        <button class="btn" id="btn-how">사용 방법</button>
       </div>
     </section>
 
     <section id="screen-how" class="card" hidden>
-      <div class="pill" aria-hidden="true">도움말</div>
-      <p style="margin-top:8px;">질문은 네 가지 성향(분석 A · 창의 C · 사람 S · 실행 P)을 측정하도록 구성되었습니다. 결과 화면에서 각 성향의 점수와 추천 직무를 확인할 수 있습니다.</p>
+      <p class="meta">측정 축: A(분석) · C(창의) · S(사람) · P(실행). 각 축은 3문항씩 총 12문항입니다. 결과는 상위 2개 프로필을 조합해 설명하며, 직무 추천은 네 축의 가중치를 반영해 계산합니다.</p>
       <div class="actions">
         <button class="btn" id="btn-back1">뒤로</button>
         <button class="btn primary" id="btn-start2">시작하기</button>
@@ -107,8 +62,8 @@
     </section>
 
     <section id="screen-quiz" class="card" hidden>
-      <div class="q-number" id="q-number">문항 1/12</div>
-      <div class="progress" aria-hidden="true"><div class="bar" id="progress"></div></div>
+      <div class="meta" id="q-number">문항 1/12</div>
+      <div class="progress"><div class="bar" id="progress"></div></div>
       <div class="question" id="q-text">질문</div>
       <div class="scale" role="group" aria-label="응답 선택">
         <button class="btn" data-v="1">전혀 아니다</button>
@@ -117,218 +72,256 @@
         <button class="btn" data-v="4">그런 편이다</button>
         <button class="btn" data-v="5">매우 그렇다</button>
       </div>
-      <div class="hint" aria-hidden="true"><span>낮음</span><span>높음</span></div>
-      <div class="actions">
+      <div class="actions" style="margin-top:10px">
         <button class="btn" id="btn-prev" disabled>이전</button>
         <button class="btn ghost" id="btn-reset">처음부터</button>
       </div>
     </section>
 
     <section id="screen-result" class="card" hidden>
-      <div class="pill">내 결과</div>
-      <h2 style="margin:10px 0 2px;">성향 점수</h2>
-      <p style="margin-top:0">점수는 상위 100% 기준으로 환산됩니다.</p>
-      <div class="result-grid" id="score-grid" aria-live="polite"></div>
+      <h2 style="margin:8px 0 6px">내 결과</h2>
+      <div id="score-grid" class="grid" aria-live="polite"></div>
 
-      <div class="jobs" id="job-suggest"></div>
+      <div class="card" style="margin-top:14px">
+        <h3 style="margin:0 0 6px">상위 성향 조합 설명</h3>
+        <div id="combo"></div>
+      </div>
 
-      <div class="actions">
-        <button class="btn" id="btn-share">결과 복사</button>
+      <div class="card" style="margin-top:14px">
+        <h3 style="margin:0 0 6px">추천 직무 Top 10</h3>
+        <ol id="job-top" style="margin:6px 0 0 18px"></ol>
+        <div class="note">각 직무는 네 성향 점수(A/C/S/P)를 가중합해 산출합니다. 점수와 설명은 안내용이며 실제 경력·흥미와 함께 판단하세요.</div>
+      </div>
+
+      <div class="actions" style="margin-top:12px">
+        <button class="btn" id="btn-copy">결과 복사</button>
         <button class="btn primary" id="btn-again">다시하기</button>
       </div>
-      <p class="footer">※ 이 테스트는 경향을 파악하기 위한 참고용입니다. 실제 진로 결정은 경험과 상담을 통해 종합적으로 판단하세요.</p>
     </section>
-  </main>
+  </div>
 
   <script>
-    // --- 데이터 정의 ---
+    // ===== 문항(12개) =====
     const QUESTIONS = [
       { t: "복잡한 문제를 데이터로 분석하는 것을 즐긴다.", c: "A" },
-      { t: "새로운 아이디어를 떠올리고 시각적으로 표현하는 게 즐겁다.", c: "C" },
-      { t: "사람들의 고민을 듣고 해결책을 찾는 것이 보람 있다.", c: "S" },
-      { t: "일정을 정리하고 일을 끝까지 밀어붙이는 것이 자신 있다.", c: "P" },
-      { t: "숫자와 논리를 다루는 게 편하다.", c: "A" },
-      { t: "디자인이나 글쓰기처럼 창작 활동을 자주 한다.", c: "C" },
-      { t: "팀에서 분위기를 읽고 조율하는 역할을 자주 맡는다.", c: "S" },
-      { t: "매뉴얼을 만들거나 프로세스를 개선하는 걸 좋아한다.", c: "P" },
-      { t: "새로운 도구나 프로그래밍을 배우는 데 흥미가 있다.", c: "A" },
-      { t: "스토리텔링으로 사람을 설득하는 데 자신 있다.", c: "C" },
+      { t: "숫자·논리를 다루는 게 편하다.", c: "A" },
+      { t: "새로운 도구(코드/툴)를 배우는 데 흥미가 있다.", c: "A" },
+
+      { t: "새로운 아이디어를 떠올리고 콘셉트를 잡는 게 즐겁다.", c: "C" },
+      { t: "스토리텔링이나 시각화로 설득하는 데 자신 있다.", c: "C" },
+      { t: "무(無)에서 유(有)를 만드는 창작 활동을 자주 한다.", c: "C" },
+
+      { t: "사람들의 고민을 듣고 적절히 조언하는 편이다.", c: "S" },
+      { t: "팀 분위기를 읽고 역할을 조율하는 편이다.", c: "S" },
       { t: "고객/동료와의 커뮤니케이션이 에너지를 준다.", c: "S" },
-      { t: "현장에서 직접 움직이며 문제를 해결하는 게 맞다.", c: "P" },
+
+      { t: "계획을 세우고 일정·품질을 끝까지 관리한다.", c: "P" },
+      { t: "체계/매뉴얼을 만들거나 프로세스를 개선하는 걸 좋아한다.", c: "P" },
+      { t: "현장에서 직접 부딪히며 문제를 해결하는 편이다.", c: "P" },
     ];
 
-    const CATE = {
-      A: { name: "분석(Analytical)", desc: "데이터·논리·문제해결에 강점. 체계적으로 가설을 세우고 검증하는 일을 선호.", jobs: ["데이터 분석가", "데이터 엔지니어", "재무분석가", "리서처", "소프트웨어 개발자"] },
-      C: { name: "창의(Creative)", desc: "아이디어·표현·스토리텔링에 강점. 새로운 콘셉트를 만들고 시각/언어로 풀어내는 일을 선호.", jobs: ["UX/UI 디자이너", "프로덕트 디자이너", "브랜드 디자이너", "콘텐츠 기획자", "마케터", "카피라이터"] },
-      S: { name: "사람(Social)", desc: "관계·조율·서비스에 강점. 공감과 소통으로 문제를 해결하고 사람을 성장시키는 일을 선호.", jobs: ["인사/HRBP", "조직개발(OD)", "채용담당자", "상담사", "고객성공(CSM)", "B2B/B2C 영업", "교육기획자"] },
-      P: { name: "실행(Practical)", desc: "조직·운영·현장 실행에 강점. 계획을 세우고 일정·품질을 관리하며 끝까지 완수하는 일을 선호.", jobs: ["프로젝트 매니저(PM)", "프로덕트 오퍼레이션", "품질관리(QA)", "생산관리", "공정/설비 엔지니어", "운영 매니저"] },
+    // ===== 성향 메타 =====
+    const TRAITS = {
+      A: {
+        name: "분석 (Analytical)",
+        desc: "데이터·논리·가설검증에 강점. 불확실성을 수량화하고 의사결정을 돕습니다.",
+        strengths:["문제 구조화","데이터 해석","정밀함"],
+        risks:["완벽주의","의사소통 간결화 필요"],
+      },
+      C: {
+        name: "창의 (Creative)",
+        desc: "아이디어·표현·콘셉팅에 강점. 새로움을 빠르게 시도하고 전파합니다.",
+        strengths:["콘셉트 메이킹","스토리텔링","시각/언어 표현"],
+        risks:["산만함","실행 지속성 관리 필요"],
+      },
+      S: {
+        name: "사람 (Social)",
+        desc: "관계·공감·조율에 강점. 신뢰 기반 협업으로 성과를 만듭니다.",
+        strengths:["공감","갈등조정","서비스 마인드"],
+        risks:["정서적 소진","경계 설정 필요"],
+      },
+      P: {
+        name: "실행 (Practical)",
+        desc: "운영·품질·일정 관리에 강점. 현장 중심으로 끝까지 완수합니다.",
+        strengths:["체계화","리스크 관리","완결성"],
+        risks:["경직성","변화 적응 속도"],
+      }
     };
 
-    // 보다 구체적인 직무 설명 DB (요약)
-    const JOBS_DB = {
-      "데이터 분석가": {
-        what: ["비즈니스 문제를 데이터로 정의", "대시보드/리포트 설계", "가설 검증 및 인사이트 도출"],
-        skills: ["스프레드시트", "SQL", "통계 기초", "시각화 도구(예: Tableau)", "프레젠테이션"],
-        first: ["보유 데이터로 간단한 KPI 대시보드 만들기", "CSV로 SQL 연습", "A/B 테스트 개념 학습"]
-      },
-      "데이터 엔지니어": {
-        what: ["데이터 파이프라인 설계/구현", "ETL/ELT 운영", "데이터 품질 관리"],
-        skills: ["Python", "SQL", "클라우드 기초", "배치/스트리밍 처리"]
+    // ===== 직무 사전 (가중치 기반 추천) =====
+    // 각 직무는 A/C/S/P 가중치(0~1)를 가짐
+    const JOBS = [
+      { title:"데이터 분석가",      w:{A:.95,C:.20,S:.30,P:.40},   explain:"데이터 설계·분석으로 의사결정을 지원" },
+      { title:"데이터 엔지니어",    w:{A:.90,C:.20,S:.20,P:.55},   explain:"데이터 파이프라인/ETL/품질 관리" },
+      { title:"재무분석가",        w:{A:.90,C:.10,S:.25,P:.45},   explain:"재무모델·실적분석·투자검토" },
+      { title:"소프트웨어 개발자",  w:{A:.85,C:.35,S:.20,P:.50},   explain:"요구사항을 코드로 구현하고 최적화" },
+      { title:"리서처(시장/사용자)", w:{A:.75,C:.35,S:.45,P:.35},   explain:"정성·정량 리서치로 인사이트 도출" },
+      { title:"UX/UI 디자이너",    w:{A:.35,C:.90,S:.45,P:.35},   explain:"사용자 문제를 디자인으로 해결" },
+      { title:"프로덕트 매니저",    w:{A:.60,C:.55,S:.60,P:.70},   explain:"문제정의→로드맵→출시까지 총괄" },
+      { title:"콘텐츠 기획자",      w:{A:.30,C:.85,S:.55,P:.35},   explain:"콘텐츠 전략·제작·효과 측정" },
+      { title:"마케터(그로스)",     w:{A:.55,C:.70,S:.55,P:.50},   explain:"퍼널 실험·캠페인 운영" },
+      { title:"브랜드 마케터",      w:{A:.35,C:.85,S:.60,P:.35},   explain:"브랜드 전략·메시지·캠페인" },
+      { title:"세일즈(법인)",       w:{A:.40,C:.30,S:.85,P:.55},   explain:"니즈 파악·제안·딜 성사" },
+      { title:"고객성공(CSM)",      w:{A:.40,C:.30,S:.90,P:.55},   explain:"온보딩·이탈방지·업셀" },
+      { title:"HRBP/HR 제도",      w:{A:.55,C:.30,S:.75,P:.55},   explain:"조직·제도 설계, 평가·보상 운영" },
+      { title:"교육기획/트레이너",  w:{A:.40,C:.55,S:.85,P:.45},   explain:"교육과정 설계·운영·코칭" },
+      { title:"프로젝트 매니저",    w:{A:.55,C:.35,S:.55,P:.90},   explain:"일정·리스크·품질 총괄" },
+      { title:"품질관리(QA)",       w:{A:.60,C:.20,S:.30,P:.90},   explain:"표준·점검·개선 사이클 운영" },
+      { title:"생산/공정관리",      w:{A:.55,C:.20,S:.35,P:.95},   explain:"현장 일정·자원·품질 관리" },
+      { title:"운영 매니저",        w:{A:.45,C:.25,S:.55,P:.85},   explain:"운영 정책과 KPI 관리" },
+    ];
 
-    // --- 상태 ---
-    let idx = 0;
-    const answers = [];// 각 문항의 점수 저장 1~5
-    const scores = { A: 0, C: 0, S: 0, P: 0 };
+    // ===== 상태 =====
+    let idx = 0; const answers = []; const scores = {A:0,C:0,S:0,P:0};
 
-    // --- 요소 참조 ---
-    const $ = (sel) => document.querySelector(sel);
-    const start = $('#screen-start');
-    const how = $('#screen-how');
-    const quiz = $('#screen-quiz');
-    const result = $('#screen-result');
+    // ===== DOM =====
+    const $ = (s)=>document.querySelector(s);
+    const start=$('#screen-start'), how=$('#screen-how'), quiz=$('#screen-quiz'), result=$('#screen-result');
+    const qNum=$('#q-number'), qText=$('#q-text'), bar=$('#progress');
 
-    const qNum = $('#q-number');
-    const qText = $('#q-text');
-    const bar = $('#progress');
-    const btnPrev = $('#btn-prev');
+    // ===== 유틸 =====
+    const show=(el)=>el.hidden=false, hide=(el)=>el.hidden=true;
+    const maxPer=15; // 각 축 3문항 * 5점
+    function pct(k){ return Math.round((scores[k]/maxPer)*100); }
 
-    // --- 유틸 ---
-    const show = (el) => el.hidden = false;
-    const hide = (el) => el.hidden = true;
-
-    function fmtPct(v){ return Math.round(v * 100); }
-
-    // --- 화면 전환 ---
-    function goStart(){
-      hide(how); hide(quiz); hide(result); show(start);
-      resetAll(false);
-    }
+    // ===== 흐름 =====
+    function goStart(){ hide(how); hide(quiz); hide(result); show(start); reset(true); }
     function goHow(){ hide(start); show(how); }
     function goQuiz(){ hide(start); hide(how); hide(result); show(quiz); renderQ(); }
     function goResult(){ hide(quiz); show(result); renderResult(); }
 
-    // --- 로직 ---
-    function resetAll(andClear=true){
-      idx = 0; bar.style.width = '0%'; btnPrev.disabled = true; 
-      if(andClear){ answers.length = 0; scores.A = scores.C = scores.S = scores.P = 0; }
-    }
+    function reset(clear){ idx=0; bar.style.width='0%'; if(clear){ ['A','C','S','P'].forEach(k=>scores[k]=0); answers.length=0; } }
 
     function renderQ(){
-      const total = QUESTIONS.length;
+      const total=QUESTIONS.length; const q=QUESTIONS[idx];
       qNum.textContent = `문항 ${idx+1}/${total}`;
-      const q = QUESTIONS[idx];
       qText.textContent = q.t;
-      bar.style.width = `${((idx)/total)*100}%`;
-      btnPrev.disabled = idx === 0;
+      bar.style.width = `${(idx/total)*100}%`;
+      $('#btn-prev').disabled = idx===0;
     }
 
-    function applyScore(i, value){
-      const cat = QUESTIONS[i].c;
-      // 이전 응답이 있으면 점수 롤백
-      if(answers[i]){ scores[cat] -= answers[i]; }
-      answers[i] = value;
-      scores[cat] += value;
+    // 응답 처리
+    document.querySelectorAll('.scale .btn').forEach(b=>{
+      b.addEventListener('click',()=>{ const v=Number(b.dataset.v); apply(v); });
+    });
+
+    function apply(value){
+      const cat = QUESTIONS[idx].c; scores[cat] += value; answers[idx]=value; idx++;
+      if(idx < QUESTIONS.length) renderQ(); else { bar.style.width='100%'; goResult(); }
     }
 
-    function next(){
-      if(idx < QUESTIONS.length - 1){ idx++; renderQ(); }
-      else { bar.style.width = '100%'; goResult(); }
-    }
+    $('#btn-prev').addEventListener('click',()=>{ if(idx>0){ idx--; const cat=QUESTIONS[idx].c; scores[cat]-=answers[idx]||0; renderQ(); } });
+    $('#btn-reset').addEventListener('click',()=>goStart());
+    $('#btn-start').addEventListener('click',()=>goQuiz());
+    $('#btn-start2').addEventListener('click',()=>goQuiz());
+    $('#btn-how').addEventListener('click',()=>goHow());
+    $('#btn-back1').addEventListener('click',()=>goStart());
+    $('#btn-again')?.addEventListener('click',()=>goQuiz());
 
-    function prev(){ if(idx>0){ idx--; renderQ(); } }
-
+    // ===== 결과 렌더 =====
     function renderResult(){
-      // 백분율 계산 (각 카테고리 3문항 * 최대 5점 = 15점)
-      const maxPerCat = 15;
-      const entries = Object.entries(scores).map(([k,v])=>({k, v, pct: v / maxPerCat}));
-      entries.sort((a,b)=> b.pct - a.pct);
-
-      // 점수 카드 렌더
-      const grid = $('#score-grid');
-      grid.innerHTML = '';
-      Object.keys(CATE).forEach((k)=>{
-        const info = CATE[k];
-        const pct = (scores[k] / maxPerCat) * 100;
-        const wrap = document.createElement('div');
-        wrap.className = 'score';
-        wrap.innerHTML = `
-          <h3>${info.name} <span style="color:var(--muted); font-weight:500;">(${scores[k]} / ${maxPerCat})</span></h3>
-          <div class="meter" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(pct)}" aria-label="${info.name} 점수">
-            <div style="width:${pct.toFixed(0)}%"></div>
+      // 점수 카드
+      const grid=$('#score-grid'); grid.innerHTML='';
+      ['A','C','S','P'].forEach(k=>{
+        const box=document.createElement('div'); box.className='score';
+        box.innerHTML = `
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <strong>${TRAITS[k].name}</strong>
+            <span class="tag">${scores[k]} / ${maxPer} (${pct(k)}%)</span>
           </div>
-          <p style="margin:8px 0 0; color:var(--muted);">${info.desc}</p>
-        `;
-        grid.appendChild(wrap);
+          <div class="meter" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct(k)}"><div style="width:${pct(k)}%"></div></div>
+          <div class="meta" style="margin-top:8px">${TRAITS[k].desc}</div>
+          <div class="meta">강점: ${TRAITS[k].strengths.join(', ')} · 주의점: ${TRAITS[k].risks.join(', ')}</div>
+        `; grid.appendChild(box);
       });
 
-      // 상위 1~2개 추천 직무
-      const top = entries.filter((e, i)=> e.pct >= entries[0].pct - 0.05); // 5% 이내 동률 처리
-      const jobsDiv = document.getElementById('job-suggest');
-      jobsDiv.innerHTML = '<h2 style="margin:6px 0 0;">추천 직무</h2>';
-      top.forEach(({k})=>{
-        const info = CATE[k];
-        const sec = document.createElement('div');
-        sec.className = 'score';
-        sec.innerHTML = `
-          <h3>${info.name}</h3>
-          <ul>${info.jobs.map(j=>`<li>${j}</li>`).join('')}</ul>
-        `;
-        jobsDiv.appendChild(sec);
+      // 상위 2 성향
+      const ordered = Object.entries(scores).map(([k,v])=>({k,v,p:v/maxPer})).sort((a,b)=>b.v-a.v);
+      const top1=ordered[0], top2=ordered[1];
+      const comboMap = {
+        'A+C': '데이터에 기반해 새로운 콘셉트를 검증·구현. 데이터 드리븐 크리에이티브, AI/데이터 활용 기획에 강점.',
+        'A+S': '분석과 공감을 결합해 고객·조직 문제를 구조적으로 해결. 리서치, HR 애널리틱스, 컨설팅에 적합.',
+        'A+P': '정밀한 분석과 실행력을 결합. 운영·품질·프로젝트 관리에서 강력한 개선 성과.',
+        'C+S': '스토리텔링과 공감으로 설득·변화 촉진. 브랜드/교육/커뮤니케이션 직무에 적합.',
+        'C+P': '아이디어를 빠르게 프로토타이핑하고 출시. 프로덕트/그로스/콘텐츠 운영에 강점.',
+        'S+P': '현장 조율과 실행 최적화. 영업·고객성공·운영 리더 역할에 적합.'
+      };
+      const key = [top1.k, top2.k].sort().join('+');
+      const comboText = comboMap[key] || '상위 성향을 조합하여 강점을 확장하세요.';
+      $('#combo').innerHTML = `<div class="meta"><strong>${TRAITS[top1.k].name}</strong> + <strong>${TRAITS[top2.k].name}</strong></div><p style="margin:6px 0 0">${comboText}</p>`;
+
+      // 추천 직무 Top 10 (가중합)
+      const norm = (k)=> (scores[k]/maxPer); // 0~1
+      const ranked = JOBS.map(j=>{
+        const w=j.w; const s = w.A*norm('A') + w.C*norm('C') + w.S*norm('S') + w.P*norm('P');
+        return { ...j, score: s };
+      }).sort((a,b)=> b.score - a.score).slice(0,10);
+
+      const list=$('#job-top'); list.innerHTML='';
+      ranked.forEach((j,i)=>{
+        const li=document.createElement('li');
+        const pct = Math.round(j.score*100);
+        li.innerHTML = `<strong>${j.title}</strong> — ${j.explain} <span class="tag">적합도 ${pct}%</span>
+          <div class="meta">권장 첫걸음: ${firstSteps(j.title)}</div>`;
+        list.appendChild(li);
       });
 
-      // 공유 텍스트 준비
-      const shareText = entries.map(e=>`${CATE[e.k].name}:${fmtPct(e.pct)}%`).join(' · ');
-      document.getElementById('btn-share').onclick = async () => {
-        const txt = `내 직업 성향 결과\n${shareText}`;
-        try {
-          await navigator.clipboard.writeText(txt);
-          flash(`복사되었습니다!\n\n${txt}`);
-        } catch { alert('복사에 실패했습니다. 브라우저 설정을 확인하세요.'); }
+      // 복사
+      $('#btn-copy').onclick = async ()=>{
+        const text = shareText(scores, ranked);
+        try{ await navigator.clipboard.writeText(text); alert('결과를 복사했습니다. 붙여넣어 공유하세요!'); }
+        catch{ alert('복사에 실패했습니다. 브라우저 설정을 확인하세요.'); }
       };
     }
 
-    function flash(message){
-      const n = document.createElement('div');
-      n.textContent = message;
-      Object.assign(n.style, {
-        position:'fixed', left:'50%', top:'16px', transform:'translateX(-50%)', padding:'10px 14px',
-        background:'rgba(20,30,60,0.95)', color:'var(--text)', border:'1px solid rgba(255,255,255,0.18)',
-        borderRadius:'10px', boxShadow:'0 6px 20px rgba(0,0,0,0.5)', zIndex:9999, whiteSpace:'pre-wrap'
-      });
-      document.body.appendChild(n);
-      setTimeout(()=> n.remove(), 2400);
+    function firstSteps(title){
+      const tips = {
+        '데이터 분석가':'관심 분야 데이터를 모아 대시보드 1개 만들기(예: 매출/방문). 통계 기본과 SQL SELECT~JOIN부터.',
+        '데이터 엔지니어':'ETL 파이프라인 샘플 구축(크롤링→저장→변환). 파일/DB 포맷과 배치 스케줄링 체험.',
+        '재무분석가':'상장사 재무제표 3곳 비교 분석, 간단한 DCF 모델 작성.',
+        '소프트웨어 개발자':'작은 웹앱 1개 완성(로그인·폼·목록). 버전관리(Git)와 배포 경험.',
+        '리서처(시장/사용자)':'설문 10문항 설계→파일럿 20명→인사이트 3개 도출 리포트 작성.',
+        'UX/UI 디자이너':'문제정의→와이어프레임→프로토타입까지 1개 플로우 제작.',
+        '프로덕트 매니저':'PRD 한 장으로 문제·지표·출시범위를 정의. 릴리즈 로그 남기기.',
+        '콘텐츠 기획자':'시리즈 주제 5개, 톤&매너 가이드 한 장 작성 후 3편 발행.',
+        '마케터(그로스)':'AARRR 퍼널 정의하고 1개 실험 설계→전/후 지표 비교.',
+        '브랜드 마케터':'페르소나 2종과 USP/메시지 맵 작성 후 캠페인 시안 도출.',
+        '세일즈(법인)':'이상고객 프로필(ICP) 정의, 콜드메일 템플릿 2종 제작·발송.',
+        '고객성공(CSM)':'온보딩 체크리스트 작성, 이탈신호 지표 3개 정의.',
+        'HRBP/HR 제도':'직무기술서 1종 개선, 평가/보상 정책 초안 작성.',
+        '교육기획/트레이너':'학습목표-평가기준-활동 설계로 90분 강의안 제작.',
+        '프로젝트 매니저':'WBS 작성, 리스크 레지스터 5건 등록, 데일리 스탠드업 운영.',
+        '품질관리(QA)':'표준작업서(SOP) 1건 쓰고 체크리스트로 시범 점검.',
+        '생산/공정관리':'라인 타임스탭 측정, 병목 1개 찾아 개선 제안.',
+        '운영 매니저':'운영상 KPI 3개 정의하고 주간 리포트 템플릿 작성.'
+      };
+      return tips[title] || '작은 사이드 프로젝트로 시작해 성과물을 쌓아보세요.';
     }
 
-    // --- 이벤트 바인딩 ---
-    document.querySelectorAll('.scale .btn').forEach(btn=>{
-      btn.addEventListener('click', () => {
-        const value = Number(btn.dataset.v);
-        applyScore(idx, value);
-        next();
-      });
-    });
+    function shareText(scores, ranked){
+      const p = (k)=> Math.round((scores[k]/maxPer)*100);
+      const top = ranked.slice(0,5).map(j=>`${j.title}(${Math.round(j.score*100)}%)`).join(', ');
+      return `직업 성향 결과
+A:${p('A')}% C:${p('C')}% S:${p('S')}% P:${p('P')}%
+추천 Top: ${top}`;
+    }
 
-    document.getElementById('btn-prev').addEventListener('click', prev);
-    document.getElementById('btn-reset').addEventListener('click', ()=>{ resetAll(); goStart(); });
-    document.getElementById('btn-again').addEventListener('click', ()=>{ resetAll(); goQuiz(); });
-
-    document.getElementById('btn-start').addEventListener('click', goQuiz);
-    document.getElementById('btn-start2').addEventListener('click', goQuiz);
-    document.getElementById('btn-how').addEventListener('click', goHow);
-    document.getElementById('btn-back1').addEventListener('click', goStart);
-
-    // 키보드 접근성 (좌/우 화살표로 값 선택)
-    window.addEventListener('keydown', (e)=>{
+    // 시작 바인딩
+    // 키보드: 좌우/숫자키로 응답
+    window.addEventListener('keydown',(e)=>{
       if(quiz.hidden) return;
       if(['ArrowLeft','ArrowRight','1','2','3','4','5'].includes(e.key)){
         e.preventDefault();
-        let val = null;
-        if(e.key==='ArrowLeft') val = Math.max(1, (answers[idx]||3)-1);
-        if(e.key==='ArrowRight') val = Math.min(5, (answers[idx]||3)+1);
-        if('12345'.includes(e.key)) val = Number(e.key);
-        if(val){ applyScore(idx, val); next(); }
+        let val=null; if(e.key==='ArrowLeft') val=Math.max(1,(answers[idx]||3)-1);
+        if(e.key==='ArrowRight') val=Math.min(5,(answers[idx]||3)+1);
+        if('12345'.includes(e.key)) val=Number(e.key);
+        if(val) apply(val);
       }
     });
+
+    // 엔트리
+    // 초기 화면이 보이도록 유지
+    
   </script>
 </body>
 </html>
