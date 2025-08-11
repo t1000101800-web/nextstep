@@ -100,228 +100,183 @@
   </div>
 
   <script>
-  document.addEventListener('DOMContentLoaded', init);
-  function init(){
-    // ===== 30문항 =====
-    const QUESTIONS = [
-      // A (8)
-      { t:"복잡한 문제를 데이터로 분석하는 것을 즐긴다.", c:"A" },
-      { t:"숫자·논리를 다루는 게 편하다.", c:"A" },
-      { t:"새 도구나 프로그래밍을 배우는 데 흥미가 있다.", c:"A" },
-      { t:"표와 그래프를 보면 핵심을 빠르게 파악한다.", c:"A" },
-      { t:"가설을 세우고 실험으로 검증하는 편이다.", c:"A" },
-      { t:"문서를 꼼꼼히 읽고 오류를 잘 찾아낸다.", c:"A" },
-      { t:"데이터 정제·전처리 같은 반복 작업도 잘 해낸다.", c:"A" },
-      { t:"문제의 근본 원인을 파고드는 편이다.", c:"A" },
-      // C (8)
-      { t:"아이디어를 떠올리고 콘셉트를 잡는 게 즐겁다.", c:"C" },
-      { t:"스토리텔링이나 시각화로 설득하는 데 자신 있다.", c:"C" },
-      { t:"새로운 형식/포맷을 시도하는 걸 좋아한다.", c:"C" },
-      { t:"영감이 떠오르면 금방 스케치/메모로 남긴다.", c:"C" },
-      { t:"디자인·글쓰기·영상 등 창작 활동을 자주 한다.", c:"C" },
-      { t:"광고나 브랜드 캠페인 사례를 보는 게 재미있다.", c:"C" },
-      { t:"사용자 관점을 상상하며 화면을 그려본다.", c:"C" },
-      { t:"콘텐츠 기획을 할 때 제목·후킹을 신경 쓴다.", c:"C" },
-      // S (7)
-      { t:"사람들의 고민을 듣고 적절히 조언하는 편이다.", c:"S" },
-      { t:"팀 분위기를 읽고 갈등을 조정하는 편이다.", c:"S" },
-      { t:"고객/동료와의 커뮤니케이션이 에너지를 준다.", c:"S" },
-      { t:"상대의 숨은 니즈를 파악하는 편이다.", c:"S" },
-      { t:"발표·회의 진행을 자연스럽게 맡는다.", c:"S" },
-      { t:"피드백을 주고받는 문화에 적극적이다.", c:"S" },
-      { t:"상대방이 이해했는지 확인하며 설명한다.", c:"S" },
-      // P (7)
-      { t:"계획을 세우고 일정·품질을 끝까지 관리한다.", c:"P" },
-      { t:"체계/매뉴얼을 만들거나 프로세스를 개선한다.", c:"P" },
-      { t:"현장에서 직접 부딪히며 문제를 해결한다.", c:"P" },
-      { t:"일을 우선순위로 정리하고 차근차근 처리한다.", c:"P" },
-      { t:"리스크를 미리 가정하고 대비책을 마련한다.", c:"P" },
-      { t:"반복 작업을 자동화하거나 표준화하려 한다.", c:"P" },
-      { t:"마감에 강하고 완결성을 높이려 노력한다.", c:"P" },
-    ];
+// === Failsafe script (no DOMContentLoaded needed; script runs after DOM) ===
+// If anything goes wrong, open DevTools(F12) → Console and check [career-test] logs.
 
-    // ===== 성향 메타 =====
-    const TRAITS = {
-      A: { name:"분석 (Analytical)", desc:"데이터·논리·가설검증에 강점. 불확실성을 수량화하고 의사결정을 돕습니다.", strengths:["문제 구조화","데이터 해석","정밀함"], risks:["완벽주의","의사소통 간결화 필요"] },
-      C: { name:"창의 (Creative)", desc:"아이디어·표현·콘셉팅에 강점. 새로움을 빠르게 시도하고 전파합니다.", strengths:["콘셉트 메이킹","스토리텔링","시각/언어 표현"], risks:["산만함","실행 지속성 관리 필요"] },
-      S: { name:"사람 (Social)", desc:"관계·공감·조율에 강점. 신뢰 기반 협업으로 성과를 만듭니다.", strengths:["공감","갈등조정","서비스 마인드"], risks:["정서적 소진","경계 설정 필요"] },
-      P: { name:"실행 (Practical)", desc:"운영·품질·일정 관리에 강점. 현장 중심으로 끝까지 완수합니다.", strengths:["체계화","리스크 관리","완결성"], risks:["경직성","변화 적응 속도"] },
-    };
+// ---------- Data ----------
+const QUESTIONS = [
+  // A (8)
+  { t:"복잡한 문제를 데이터로 분석하는 것을 즐긴다.", c:"A" },
+  { t:"숫자·논리를 다루는 게 편하다.", c:"A" },
+  { t:"새 도구나 프로그래밍을 배우는 데 흥미가 있다.", c:"A" },
+  { t:"표와 그래프를 보면 핵심을 빠르게 파악한다.", c:"A" },
+  { t:"가설을 세우고 실험으로 검증하는 편이다.", c:"A" },
+  { t:"문서를 꼼꼼히 읽고 오류를 잘 찾아낸다.", c:"A" },
+  { t:"데이터 정제·전처리 같은 반복 작업도 잘 해낸다.", c:"A" },
+  { t:"문제의 근본 원인을 파고드는 편이다.", c:"A" },
+  // C (8)
+  { t:"아이디어를 떠올리고 콘셉트를 잡는 게 즐겁다.", c:"C" },
+  { t:"스토리텔링이나 시각화로 설득하는 데 자신 있다.", c:"C" },
+  { t:"새로운 형식/포맷을 시도하는 걸 좋아한다.", c:"C" },
+  { t:"영감이 떠오르면 금방 스케치/메모로 남긴다.", c:"C" },
+  { t:"디자인·글쓰기·영상 등 창작 활동을 자주 한다.", c:"C" },
+  { t:"광고나 브랜드 캠페인 사례를 보는 게 재미있다.", c:"C" },
+  { t:"사용자 관점을 상상하며 화면을 그려본다.", c:"C" },
+  { t:"콘텐츠 기획을 할 때 제목·후킹을 신경 쓴다.", c:"C" },
+  // S (7)
+  { t:"사람들의 고민을 듣고 적절히 조언하는 편이다.", c:"S" },
+  { t:"팀 분위기를 읽고 갈등을 조정하는 편이다.", c:"S" },
+  { t:"고객/동료와의 커뮤니케이션이 에너지를 준다.", c:"S" },
+  { t:"상대의 숨은 니즈를 파악하는 편이다.", c:"S" },
+  { t:"발표·회의 진행을 자연스럽게 맡는다.", c:"S" },
+  { t:"피드백을 주고받는 문화에 적극적이다.", c:"S" },
+  { t:"상대방이 이해했는지 확인하며 설명한다.", c:"S" },
+  // P (7)
+  { t:"계획을 세우고 일정·품질을 끝까지 관리한다.", c:"P" },
+  { t:"체계/매뉴얼을 만들거나 프로세스를 개선한다.", c:"P" },
+  { t:"현장에서 직접 부딪히며 문제를 해결한다.", c:"P" },
+  { t:"일을 우선순위로 정리하고 차근차근 처리한다.", c:"P" },
+  { t:"리스크를 미리 가정하고 대비책을 마련한다.", c:"P" },
+  { t:"반복 작업을 자동화하거나 표준화하려 한다.", c:"P" },
+  { t:"마감에 강하고 완결성을 높이려 노력한다.", c:"P" },
+];
 
-    // ===== 직무 기본 템플릿 (가중치) =====
-    const BASE_ROLES = [
-      { title:"데이터 분석가",       w:{A:.95,C:.25,S:.30,P:.45}, explain:"데이터 설계·분석으로 의사결정을 지원" },
-      { title:"데이터 엔지니어",     w:{A:.90,C:.20,S:.20,P:.55}, explain:"데이터 파이프라인/ETL/품질 관리" },
-      { title:"재무분석가",         w:{A:.90,C:.10,S:.25,P:.45}, explain:"재무모델·실적분석·투자검토" },
-      { title:"소프트웨어 개발자",   w:{A:.85,C:.35,S:.20,P:.50}, explain:"요구사항을 코드로 구현하고 최적화" },
-      { title:"리서처(시장/사용자)",  w:{A:.75,C:.35,S:.45,P:.35}, explain:"정성·정량 리서치로 인사이트 도출" },
-      { title:"머신러닝 엔지니어",   w:{A:.92,C:.35,S:.20,P:.55}, explain:"모델 학습·평가·서빙 파이프라인" },
-      { title:"데브옵스 엔지니어",   w:{A:.70,C:.20,S:.25,P:.80}, explain:"배포/모니터링/신뢰성(SRE) 운영" },
-      { title:"보안 엔지니어",       w:{A:.80,C:.20,S:.25,P:.75}, explain:"취약점 진단·대응·정책" },
-      { title:"UX/UI 디자이너",     w:{A:.35,C:.90,S:.45,P:.35}, explain:"사용자 문제를 디자인으로 해결" },
-      { title:"프로덕트 디자이너",   w:{A:.45,C:.85,S:.50,P:.40}, explain:"문제정의→프로토타입→테스트" },
-      { title:"프로덕트 매니저",     w:{A:.60,C:.55,S:.60,P:.70}, explain:"문제정의→로드맵→출시까지 총괄" },
-      { title:"그로스 마케터",       w:{A:.55,C:.70,S:.55,P:.50}, explain:"퍼널 실험·캠페인 운영" },
-      { title:"브랜드 마케터",       w:{A:.35,C:.85,S:.60,P:.35}, explain:"브랜드 전략·메시지·캠페인" },
-      { title:"콘텐츠 기획자",       w:{A:.30,C:.85,S:.55,P:.35}, explain:"콘텐츠 전략·제작·효과 측정" },
-      { title:"세일즈(법인)",        w:{A:.40,C:.30,S:.85,P:.55}, explain:"니즈 파악·제안·딜 성사" },
-      { title:"고객성공(CSM)",       w:{A:.40,C:.30,S:.90,P:.55}, explain:"온보딩·이탈방지·업셀" },
-      { title:"HRBP/HR 제도",       w:{A:.55,C:.30,S:.75,P:.55}, explain:"조직·제도 설계, 평가·보상 운영" },
-      { title:"채용리크루터",        w:{A:.35,C:.25,S:.85,P:.45}, explain:"채용 전략·소싱·면접·오퍼" },
-      { title:"교육기획/트레이너",   w:{A:.40,C:.55,S:.85,P:.45}, explain:"교육과정 설계·운영·코칭" },
-      { title:"프로젝트 매니저",     w:{A:.55,C:.35,S:.55,P:.90}, explain:"일정·리스크·품질 총괄" },
-      { title:"품질관리(QA)",        w:{A:.60,C:.20,S:.30,P:.90}, explain:"표준·점검·개선 사이클 운영" },
-      { title:"생산/공정관리",       w:{A:.55,C:.20,S:.35,P:.95}, explain:"현장 일정·자원·품질 관리" },
-      { title:"운영 매니저",         w:{A:.45,C:.25,S:.55,P:.85}, explain:"운영 정책과 KPI 관리" },
-      { title:"공급망/물류",          w:{A:.55,C:.20,S:.40,P:.90}, explain:"수요예측·재고·배송 최적화" },
-      { title:"구매/소싱 매니저",     w:{A:.50,C:.25,S:.50,P:.85}, explain:"원가·협상·벤더관리" },
-      { title:"품질보증(Quality)",    w:{A:.60,C:.20,S:.35,P:.90}, explain:"감사·표준·개선 활동" },
-      { title:"R&D 연구원",          w:{A:.85,C:.60,S:.30,P:.55}, explain:"실험·분석·논문/특허" },
-      { title:"임상/의료 데이터",      w:{A:.90,C:.25,S:.40,P:.55}, explain:"임상 데이터 분석/운영" },
-      { title:"규제/컴플라이언스",     w:{A:.70,C:.20,S:.45,P:.80}, explain:"정책 준수·감사·교육" },
-    ];
+const TRAITS = {
+  A: { name:"분석 (Analytical)", desc:"데이터·논리·가설검증에 강점.", strengths:["문제 구조화","데이터 해석","정밀함"], risks:["완벽주의","의사소통 간결화 필요"] },
+  C: { name:"창의 (Creative)", desc:"아이디어·표현·콘셉팅에 강점.", strengths:["콘셉트 메이킹","스토리텔링","시각/언어 표현"], risks:["산만함","실행 지속성 관리 필요"] },
+  S: { name:"사람 (Social)", desc:"관계·공감·조율에 강점.", strengths:["공감","갈등조정","서비스 마인드"], risks:["정서적 소진","경계 설정 필요"] },
+  P: { name:"실행 (Practical)", desc:"운영·품질·일정 관리에 강점.", strengths:["체계화","리스크 관리","완결성"], risks:["경직성","변화 적응 속도"] },
+};
 
-    const DOMAINS = [
-      '커머스','핀테크','헬스케어','교육','제조','물류','게임','미디어','공공','B2B SaaS','여행','모빌리티','부동산','리테일','에너지','바이오','로보틱스','AI','보안','스포츠','엔터','패션','푸드','자동차','반도체','케미컬','건설','콘텐츠','광고','클라우드','오픈소스','블록체인','Web3','그린테크','에듀테크','애드테크','마켓플레이스','HR','고객지원','품질','R&D'
-    ];
+const BASE_ROLES = [
+  { title:"데이터 분석가",       w:{A:.95,C:.25,S:.30,P:.45}, explain:"데이터 설계·분석으로 의사결정을 지원" },
+  { title:"데이터 엔지니어",     w:{A:.90,C:.20,S:.20,P:.55}, explain:"데이터 파이프라인/ETL/품질 관리" },
+  { title:"재무분석가",         w:{A:.90,C:.10,S:.25,P:.45}, explain:"재무모델·실적분석·투자검토" },
+  { title:"소프트웨어 개발자",   w:{A:.85,C:.35,S:.20,P:.50}, explain:"요구사항을 코드로 구현하고 최적화" },
+  { title:"리서처(시장/사용자)",  w:{A:.75,C:.35,S:.45,P:.35}, explain:"정성·정량 리서치로 인사이트 도출" },
+  { title:"머신러닝 엔지니어",   w:{A:.92,C:.35,S:.20,P:.55}, explain:"모델 학습·평가·서빙 파이프라인" },
+  { title:"데브옵스 엔지니어",   w:{A:.70,C:.20,S:.25,P:.80}, explain:"배포/모니터링/신뢰성(SRE) 운영" },
+  { title:"보안 엔지니어",       w:{A:.80,C:.20,S:.25,P:.75}, explain:"취약점 진단·대응·정책" },
+  { title:"UX/UI 디자이너",     w:{A:.35,C:.90,S:.45,P:.35}, explain:"사용자 문제를 디자인으로 해결" },
+  { title:"프로덕트 디자이너",   w:{A:.45,C:.85,S:.50,P:.40}, explain:"문제정의→프로토타입→테스트" },
+  { title:"프로덕트 매니저",     w:{A:.60,C:.55,S:.60,P:.70}, explain:"문제정의→로드맵→출시까지 총괄" },
+  { title:"그로스 마케터",       w:{A:.55,C:.70,S:.55,P:.50}, explain:"퍼널 실험·캠페인 운영" },
+  { title:"브랜드 마케터",       w:{A:.35,C:.85,S:.60,P:.35}, explain:"브랜드 전략·메시지·캠페인" },
+  { title:"콘텐츠 기획자",       w:{A:.30,C:.85,S:.55,P:.35}, explain:"콘텐츠 전략·제작·효과 측정" },
+  { title:"세일즈(법인)",        w:{A:.40,C:.30,S:.85,P:.55}, explain:"니즈 파악·제안·딜 성사" },
+  { title:"고객성공(CSM)",       w:{A:.40,C:.30,S:.90,P:.55}, explain:"온보딩·이탈방지·업셀" },
+  { title:"HRBP/HR 제도",       w:{A:.55,C:.30,S:.75,P:.55}, explain:"조직·제도 설계, 평가·보상 운영" },
+  { title:"채용리크루터",        w:{A:.35,C:.25,S:.85,P:.45}, explain:"채용 전략·소싱·면접·오퍼" },
+  { title:"교육기획/트레이너",   w:{A:.40,C:.55,S:.85,P:.45}, explain:"교육과정 설계·운영·코칭" },
+  { title:"프로젝트 매니저",     w:{A:.55,C:.35,S:.55,P:.90}, explain:"일정·리스크·품질 총괄" },
+  { title:"품질관리(QA)",        w:{A:.60,C:.20,S:.30,P:.90}, explain:"표준·점검·개선 사이클 운영" },
+  { title:"생산/공정관리",       w:{A:.55,C:.20,S:.35,P:.95}, explain:"현장 일정·자원·품질 관리" },
+  { title:"운영 매니저",         w:{A:.45,C:.25,S:.55,P:.85}, explain:"운영 정책과 KPI 관리" },
+  { title:"공급망/물류",          w:{A:.55,C:.20,S:.40,P:.90}, explain:"수요예측·재고·배송 최적화" },
+  { title:"구매/소싱 매니저",     w:{A:.50,C:.25,S:.50,P:.85}, explain:"원가·협상·벤더관리" },
+  { title:"품질보증(Quality)",    w:{A:.60,C:.20,S:.35,P:.90}, explain:"감사·표준·개선 활동" },
+  { title:"R&D 연구원",          w:{A:.85,C:.60,S:.30,P:.55}, explain:"실험·분석·논문/특허" },
+  { title:"임상/의료 데이터",      w:{A:.90,C:.25,S:.40,P:.55}, explain:"임상 데이터 분석/운영" },
+  { title:"규제/컴플라이언스",     w:{A:.70,C:.20,S:.45,P:.80}, explain:"정책 준수·감사·교육" },
+];
 
-    function generateJobs(){
-      const list=[];
-      BASE_ROLES.forEach(base=>{
-        DOMAINS.forEach(d=>{
-          list.push({ title: `${base.title} – ${d}`, w: base.w, explain: `${base.explain} (${d})` });
-        });
-      });
-      return list; // 1,200개 이상
-    }
+const DOMAINS=[
+  '커머스','핀테크','헬스케어','교육','제조','물류','게임','미디어','공공','B2B SaaS','여행','모빌리티','부동산','리테일','에너지','바이오','로보틱스','AI','보안','스포츠','엔터','패션','푸드','자동차','반도체','케미컬','건설','콘텐츠','광고','클라우드','오픈소스','블록체인','Web3','그린테크','에듀테크','애드테크','마켓플레이스','HR','고객지원','품질','R&D'
+];
 
-    const JOBS = generateJobs();
+function generateJobs(){
+  const list=[]; BASE_ROLES.forEach(base=>{ DOMAINS.forEach(d=>{ list.push({ title:`${base.title} – ${d}`, w:base.w, explain:`${base.explain} (${d})` }); }); }); return list;
+}
+const JOBS = generateJobs();
 
-    // ===== 상태 =====
-    let idx=0; const answers=[]; const scores={A:0,C:0,S:0,P:0};
-    const perCount = {A:0,C:0,S:0,P:0}; QUESTIONS.forEach(q=> perCount[q.c]++);
-    const maxPer = {A: perCount.A*5, C: perCount.C*5, S: perCount.S*5, P: perCount.P*5};
+// ---------- State ----------
+let idx=0; const answers=[]; const scores={A:0,C:0,S:0,P:0};
+const perCount={A:0,C:0,S:0,P:0}; QUESTIONS.forEach(q=> perCount[q.c]++);
+const maxPer={ A:perCount.A*5, C:perCount.C*5, S:perCount.S*5, P:perCount.P*5 };
 
-    // ===== DOM =====
-    const $=(s)=>document.querySelector(s);
-    const start=$('#screen-start'), how=$('#screen-how'), quiz=$('#screen-quiz'), result=$('#screen-result');
-    const qNum=$('#q-number'), qText=$('#q-text'), bar=$('#progress');
+// ---------- DOM ----------
+const $=(s)=>document.querySelector(s);
+const start=$('#screen-start');
+const how=$('#screen-how');
+const quiz=$('#screen-quiz');
+const result=$('#screen-result');
+const qNum=$('#q-number');
+const qText=$('#q-text');
+const bar=$('#progress');
 
-    const show=(el)=> el && (el.hidden=false);
-    const hide=(el)=> el && (el.hidden=true);
+function show(el){ if(el) el.hidden=false; }
+function hide(el){ if(el) el.hidden=true; }
 
-    function goStart(){ hide(how); hide(quiz); hide(result); show(start); idx=0; ['A','C','S','P'].forEach(k=>scores[k]=0); answers.length=0; if(bar) bar.style.width='0%'; }
-    function goHow(){ hide(start); show(how); }
-    function goQuiz(){ hide(start); hide(how); hide(result); show(quiz); renderQ(); }
-    function goResult(){ hide(quiz); show(result); renderResult(); }
+function goStart(){ hide(how); hide(quiz); hide(result); show(start); idx=0; ['A','C','S','P'].forEach(k=>scores[k]=0); answers.length=0; if(bar) bar.style.width='0%'; console.log('[career-test] goStart'); }
+function goHow(){ hide(start); show(how); }
+function goQuiz(){ hide(start); hide(how); hide(result); show(quiz); renderQ(); console.log('[career-test] goQuiz'); }
+function goResult(){ hide(quiz); show(result); renderResult(); console.log('[career-test] goResult'); }
 
-    function renderQ(){
-      const total=QUESTIONS.length; const q=QUESTIONS[idx];
-      if(qNum) qNum.textContent=`문항 ${idx+1}/${total}`;
-      if(qText) qText.textContent=q.t;
-      if(bar) bar.style.width=`${(idx/total)*100}%`;
-      const prevBtn=$('#btn-prev'); if(prevBtn) prevBtn.disabled = idx===0;
-    }
+function renderQ(){ const total=QUESTIONS.length; const q=QUESTIONS[idx]; if(!q){ return console.error('[career-test] no question at idx', idx); }
+  if(qNum) qNum.textContent=`문항 ${idx+1}/${total}`; if(qText) qText.textContent=q.t; if(bar) bar.style.width=`${(idx/total)*100}%`;
+  const prevBtn=$('#btn-prev'); if(prevBtn) prevBtn.disabled=(idx===0);
+}
 
-    function applyScore(i, value){
-      const cat=QUESTIONS[i].c;
-      if(answers[i]) scores[cat]-=answers[i];
-      answers[i]=value; scores[cat]+=value;
-    }
+function applyScore(i,value){ const cat=QUESTIONS[i].c; if(answers[i]) scores[cat]-=answers[i]; answers[i]=value; scores[cat]+=value; }
+function next(){ if(idx<QUESTIONS.length-1){ idx++; renderQ(); } else { if(bar) bar.style.width='100%'; goResult(); } }
+function prev(){ if(idx>0){ idx--; renderQ(); } }
 
-    function next(){ if(idx<QUESTIONS.length-1){ idx++; renderQ(); } else { if(bar) bar.style.width='100%'; goResult(); } }
-    function prev(){ if(idx>0){ idx--; renderQ(); } }
+// ---------- Events (double-safe: both addEventListener and inline fallback on HTML) ----------
+$('#btn-start')?.addEventListener('click', goQuiz);
+$('#btn-start2')?.addEventListener('click', goQuiz);
+$('#btn-how')?.addEventListener('click', goHow);
+$('#btn-back1')?.addEventListener('click', goStart);
+$('#btn-prev')?.addEventListener('click', prev);
+$('#btn-reset')?.addEventListener('click', goStart);
+$('#btn-again')?.addEventListener('click', ()=>{ goStart(); goQuiz(); });
 
-    // 이벤트
-    $('#btn-start')?.addEventListener('click', goQuiz);
-    $('#btn-start2')?.addEventListener('click', goQuiz);
-    $('#btn-how')?.addEventListener('click', goHow);
-    $('#btn-back1')?.addEventListener('click', goStart);
-    $('#btn-prev')?.addEventListener('click', prev);
-    $('#btn-reset')?.addEventListener('click', goStart);
-    $('#btn-again')?.addEventListener('click', ()=>{ goStart(); goQuiz(); });
+// Rating buttons
+Array.from(document.querySelectorAll('.scale .btn')).forEach(btn=>{
+  btn.addEventListener('click',()=>{ const v=Number(btn.dataset.v||'0'); if(!v) return; applyScore(idx,v); next(); });
+});
 
-    document.querySelectorAll('.scale .btn').forEach(btn=>{
-      btn.addEventListener('click',()=>{ const v=Number(btn.dataset.v); applyScore(idx,v); next(); });
-    });
+// Keyboard
+window.addEventListener('keydown',(e)=>{ if(!quiz || quiz.hidden) return; if(['ArrowLeft','ArrowRight','1','2','3','4','5'].includes(e.key)){
+  e.preventDefault(); let val=null; if(e.key==='ArrowLeft') val=Math.max(1,(answers[idx]||3)-1); if(e.key==='ArrowRight') val=Math.min(5,(answers[idx]||3)+1); if('12345'.includes(e.key)) val=Number(e.key); if(val){ applyScore(idx,val); next(); }
+}});
 
-    window.addEventListener('keydown',(e)=>{
-      if(quiz.hidden) return;
-      if(['ArrowLeft','ArrowRight','1','2','3','4','5'].includes(e.key)){
-        e.preventDefault();
-        let val=null; if(e.key==='ArrowLeft') val=Math.max(1,(answers[idx]||3)-1);
-        if(e.key==='ArrowRight') val=Math.min(5,(answers[idx]||3)+1);
-        if('12345'.includes(e.key)) val=Number(e.key);
-        if(val){ applyScore(idx,val); next(); }
-      }
-    });
+// ---------- Result ----------
+function norm(k){ return (scores[k]/maxPer[k]); }
+function suitability(w){ const sumW=w.A+w.C+w.S+w.P; const raw=(w.A*norm('A')+w.C*norm('C')+w.S*norm('S')+w.P*norm('P'))/sumW; return Math.max(0,Math.min(100,Math.round(raw*100))); }
 
-    // ===== 결과 계산 & 표시 (0~100% 정규화) =====
-    function norm(k){ return (scores[k] / maxPer[k]); } // 0~1
+function renderResult(){
+  const grid=$('#score-grid'); if(grid) grid.innerHTML='';
+  ['A','C','S','P'].forEach(k=>{ const p=Math.round(norm(k)*100); const box=document.createElement('div'); box.className='score';
+    box.innerHTML=`
+      <h3>${TRAITS[k].name} <span style="color:var(--muted); font-weight:500;">(${scores[k]} / ${maxPer[k]})</span></h3>
+      <div class="meter" role="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${p}"><div style="width:${p}%"></div></div>
+      <p style="margin:8px 0 0; color:var(--muted);">${TRAITS[k].desc}</p>
+      <p class="meta">강점: ${TRAITS[k].strengths.join(', ')} · 주의점: ${TRAITS[k].risks.join(', ')}</p>
+    `; grid?.appendChild(box);
+  });
 
-    function suitability(w){
-      const sumW = w.A + w.C + w.S + w.P;
-      const raw = (w.A*norm('A') + w.C*norm('C') + w.S*norm('S') + w.P*norm('P')) / sumW; // 0~1
-      return Math.max(0, Math.min(100, Math.round(raw*100))); // 0~100
-    }
+  const ranked=JOBS.map(j=>({ ...j, score:suitability(j.w) })).sort((a,b)=>b.score-a.score).slice(0,20);
+  const list=$('#job-top'); if(list){ list.innerHTML=''; ranked.forEach(j=>{ const li=document.createElement('li'); li.innerHTML=`<strong>${j.title}</strong> — ${j.explain} <span class="tag">적합도 ${j.score}%</span>`; list.appendChild(li); }); }
 
-    function renderResult(){
-      const grid=$('#score-grid'); if(grid) grid.innerHTML='';
-      ['A','C','S','P'].forEach(k=>{
-        const pct=Math.round(norm(k)*100);
-        const box=document.createElement('div'); box.className='score';
-        box.innerHTML = `
-          <h3>${TRAITS[k].name} <span style=\"color:var(--muted); font-weight:500;\">(${scores[k]} / ${maxPer[k]})</span></h3>
-          <div class=\"meter\" role=\"meter\" aria-valuemin=\"0\" aria-valuemax=\"100\" aria-valuenow=\"${pct}\"><div style=\"width:${pct}%\"></div></div>
-          <p style=\"margin:8px 0 0; color:var(--muted);\">${TRAITS[k].desc}</p>
-          <p class=\"meta\">강점: ${TRAITS[k].strengths.join(', ')} · 주의점: ${TRAITS[k].risks.join(', ')}</p>
-        `; grid?.appendChild(box);
-      });
+  const order=Object.entries(scores).map(([k,v])=>({k,v})).sort((a,b)=>b.v-a.v);
+  const top1=order[0]?.k, top2=order[1]?.k; const map={
+    'A+C':'데이터에 기반해 새로운 콘셉트를 검증·구현.',
+    'A+S':'분석과 공감으로 고객·조직 문제를 구조적으로 해결.',
+    'A+P':'정밀한 분석과 실행력으로 운영/품질/프로젝트 개선.',
+    'C+S':'스토리텔링+공감으로 변화 촉진(브랜드/교육/커뮤니케이션).',
+    'C+P':'아이디어를 빠르게 프로토타입→출시(프로덕트/그로스).',
+    'S+P':'현장 조율과 실행 최적화(영업/CS/운영).'
+  };
+  const key=[top1,top2].sort().join('+');
+  const comboEl=$('#combo'); if(comboEl) comboEl.innerHTML=`<div class="meta"><strong>${TRAITS[top1].name}</strong> + <strong>${TRAITS[top2].name}</strong></div><p style="margin:6px 0 0">${map[key]||''}</p>`;
 
-      const ranked = JOBS.map(j=>({ ...j, score: suitability(j.w) }))
-                         .sort((a,b)=> b.score - a.score)
-                         .slice(0,20);
+  const copyBtn=$('#btn-copy'); if(copyBtn){ copyBtn.onclick=async()=>{ const t=`A:${Math.round(norm('A')*100)}% C:${Math.round(norm('C')*100)}% S:${Math.round(norm('S')*100)}% P:${Math.round(norm('P')*100)}%
+Top: ${ranked.slice(0,5).map(j=>j.title+"("+j.score+"%)").join(', ')}`; try{ await navigator.clipboard.writeText(t); alert('결과를 복사했습니다. 붙여넣어 공유하세요!'); }catch{ alert('복사 실패: 브라우저 설정을 확인하세요.'); } } }
+}
 
-      const list = document.querySelector('#job-top');
-      if(list){
-        list.innerHTML='';
-        ranked.forEach(j=>{
-          const li=document.createElement('li');
-          li.innerHTML = `<strong>${j.title}</strong> — ${j.explain} <span class=\"tag\">적합도 ${j.score}%</span>`;
-          list.appendChild(li);
-        });
-      }
-
-      const comboEl = document.querySelector('#combo');
-      if(comboEl){
-        const order = Object.entries(scores).map(([k,v])=>({k,v})).sort((a,b)=>b.v-a.v);
-        const top1=order[0].k, top2=order[1].k;
-        const map={
-          'A+C':'데이터에 기반해 새로운 콘셉트를 검증·구현. 데이터 드리븐 크리에이티브, AI/데이터 활용 기획에 강점.',
-          'A+S':'분석과 공감을 결합해 고객·조직 문제를 구조적으로 해결. 리서치, HR 애널리틱스, 컨설팅에 적합.',
-          'A+P':'정밀한 분석과 실행력을 결합. 운영·품질·프로젝트 관리에서 강력한 개선 성과.',
-          'C+S':'스토리텔링과 공감으로 설득·변화 촉진. 브랜드/교육/커뮤니케이션 직무에 적합.',
-          'C+P':'아이디어를 빠르게 프로토타이핑하고 출시. 프로덕트/그로스/콘텐츠 운영에 강점.',
-          'S+P':'현장 조율과 실행 최적화. 영업·고객성공·운영 리더 역할에 적합.'
-        };
-        const key=[top1,top2].sort().join('+');
-        comboEl.innerHTML = `<div class=\"meta\"><strong>${TRAITS[top1].name}</strong> + <strong>${TRAITS[top2].name}</strong></div><p style=\"margin:6px 0 0\">${map[key]||''}</p>`;
-      }
-
-      const copyBtn = document.querySelector('#btn-copy');
-      if(copyBtn){
-        copyBtn.onclick = async ()=>{
-          const t = `A:${Math.round(norm('A')*100)}% C:${Math.round(norm('C')*100)}% S:${Math.round(norm('S')*100)}% P:${Math.round(norm('P')*100)}%
-Top: ${ranked.slice(0,5).map(j=>j.title+"("+j.score+"%)").join(', ')}`;
-          try{ await navigator.clipboard.writeText(t); alert('결과를 복사했습니다. 붙여넣어 공유하세요!'); }
-          catch{ alert('복사 실패: 브라우저 설정을 확인하세요.'); }
-        };
-      }
-    }
-
-    goStart();
-    console.log('[career-test] ready (30문항 / 1000+ 직무 지원)');
-  }
+// Start immediately (script is at the end of body)
+goStart();
+console.log('[career-test] ready (failsafe mode)');
 </script>
 </body>
 </html>
